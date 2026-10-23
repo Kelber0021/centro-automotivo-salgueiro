@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Barlow, Barlow_Condensed } from "next/font/google";
 import { Header, Footer } from "@/components/Chrome";
+import { ScrollEffects } from "@/components/ScrollEffects";
 import { site, whatsapp } from "@/config/site";
 import { MessageCircle } from "lucide-react";
 import "./globals.css";
@@ -17,9 +18,9 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { themeColor: "#17191c" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return <html lang="pt-BR" className={`${body.variable} ${display.variable}`}><body>
+  return <html lang="pt-BR" data-scroll-behavior="smooth" className={`${body.variable} ${display.variable}`}><body>
     <a className="skip-link" href="#conteudo">Ir para o conteúdo</a>
-    <Header /><main id="conteudo">{children}</main><Footer />
+    <Header /><main id="conteudo">{children}</main><ScrollEffects /><Footer />
     <a className="whatsapp-float" href={whatsapp()} target="_blank" rel="noopener noreferrer" aria-label="Conversar com a Salgueiro no WhatsApp"><MessageCircle size={24} /><span>Vamos conversar?</span></a>
   </body></html>;
 }

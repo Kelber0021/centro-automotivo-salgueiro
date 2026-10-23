@@ -196,3 +196,38 @@ h3{font-size:27px;margin-bottom:14px}
 @media(max-width:380px){.services-grid{grid-template-columns:1fr}.service-count{margin-left:0;width:100%;padding:10px 12px 0}.hero-actions{flex-direction:column;align-items:start}.hero-actions .button-ghost{min-height:40px}.media-caption{display:none}.media-control{margin-left:auto}.hero{min-height:690px}.reputation-inner{flex-direction:column;align-items:start}.reputation-score{align-items:start}.footer-main{grid-template-columns:1fr}.footer-main>div:first-child,.footer-main>nav{grid-column:auto}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.hero-photo{transform:none}.media-control{display:none}}
 .whatsapp-float{bottom:80px}
+
+/* A rolagem continua nativa no mouse, teclado e toque. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-scroll-reveal="pending"] {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+  }
+  [data-scroll-reveal="visible"] {
+    animation: salgueiro-reveal 700ms cubic-bezier(.22, 1, .36, 1) both;
+    animation-delay: var(--reveal-delay, 0ms);
+  }
+  .hero[data-scroll-active] .hero-media {
+    inset: -6% 0;
+    transform: translate3d(0, calc(var(--hero-scroll, 0) * 90px), 0)
+      scale(calc(1 + var(--hero-scroll, 0) * .06));
+  }
+  .hero[data-scroll-active] .hero-content {
+    transform: translate3d(0, calc(var(--hero-scroll, 0) * -45px), 0);
+    opacity: calc(1 - var(--hero-scroll, 0) * .65);
+  }
+  .hero.hero-paused[data-scroll-active] .hero-media { transform: none; }
+}
+@keyframes salgueiro-reveal {
+  from { opacity: 0; transform: translate3d(0, 28px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@media (max-width: 640px) and (prefers-reduced-motion: no-preference) {
+  .hero[data-scroll-active] .hero-media {
+    transform: translate3d(0, calc(var(--hero-scroll, 0) * 45px), 0)
+      scale(calc(1 + var(--hero-scroll, 0) * .03));
+  }
+  .hero[data-scroll-active] .hero-content {
+    transform: translate3d(0, calc(var(--hero-scroll, 0) * -24px), 0);
+  }
+}
