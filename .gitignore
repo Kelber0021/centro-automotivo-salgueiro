@@ -1,0 +1,12 @@
+node_modules/
+.next/
+out/
+.env*
+*.pem
+*.tsbuildinfo
+next-env.d.ts
+output/
+.playwright-cli/
+.playwright/
+npm-debug.log*
+.DS_Store
