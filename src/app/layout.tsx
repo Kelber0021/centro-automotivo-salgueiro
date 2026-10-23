@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   openGraph: { type: "website", locale: "pt_BR", siteName: site.nome },
   robots: { index: false, follow: false },
 };
-export const viewport: Viewport = { themeColor: "#17191c" };
+export const viewport: Viewport = { themeColor: "#1c282c" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return <html lang="pt-BR" data-scroll-behavior="smooth" className={`${body.variable} ${display.variable}`}><body>

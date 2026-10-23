@@ -6,7 +6,7 @@ import { useState } from "react";
 import { ArrowUpRight, Camera, Menu, MessageCircle, Phone, X } from "lucide-react";
 import { site, whatsapp } from "@/config/site";
 
-const links = [{ href: "/", nome: "Início" }, { href: "/servicos/", nome: "Serviços" }, { href: "/sobre/", nome: "A Salgueiro" }, { href: "/horarios/", nome: "Agendamento" }, { href: "/contato/", nome: "Onde estamos" }];
+const links = [{ href: "/", nome: "Início" }, { href: "/servicos/", nome: "Serviços" }, { href: "/#lavajato", nome: "Lavajato" }, { href: "/sobre/", nome: "A Salgueiro" }, { href: "/horarios/", nome: "Agendamento" }, { href: "/contato/", nome: "Onde estamos" }];
 
 export function Marca() {
   return <span className="marca"><span className="marca-top"><i aria-hidden="true" />CENTRO AUTOMOTIVO</span><strong>Salgueiro<span aria-hidden="true">.</span></strong></span>;
