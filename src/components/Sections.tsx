@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Check, Clock3, Droplets, MapPin, MessageCircle, Phone, Star } from "lucide-react";
+import { ArrowUpRight, CalendarDays, CarFront, Check, ClipboardList, Clock3, Droplets, MapPin, MessageCircle, Phone, Star, Wrench } from "lucide-react";
 import { avaliacoes, orcamentoRapido, site, whatsapp } from "@/config/site";
 import { LocationMap } from "./LocationMap";
+import { MotionLink } from "./MotionLink";
+import { PhotoGallery } from "./PhotoGallery";
 
 export function About() {
   return <section className="section about-section light-section"><div className="container about-grid">
@@ -12,17 +14,30 @@ export function About() {
 }
 
 export function Wash() {
-  return <section className="section wash-section" id="lavajato"><div className="container wash-grid">
-    <div className="wash-copy"><Droplets className="wash-symbol" size={40} strokeWidth={1.3} /><h2>A manutenção em dia.<br /><span>O carro limpo também.</span></h2><p>O lavajato também faz parte da Salgueiro. Um lugar para incluir a lavagem nos cuidados com o seu carro.</p><p>Consulte as modalidades, os valores e a disponibilidade diretamente com a equipe.</p><a className="button" href={orcamentoRapido("lavajato")} target="_blank" rel="noopener noreferrer">Consultar lavagem <ArrowUpRight size={19} /></a></div>
-    <div className="wash-details"><h3>Vamos combinar sua lavagem?</h3><p>Informe o modelo do carro e o que você procura. A equipe orienta as opções e confirma o atendimento.</p><Link className="text-link" href="/horarios/">Prefiro preparar um pedido <ArrowUpRight size={18} /></Link><figure className="wash-review"><blockquote>“Lava Jato excelente, dxa seu carro limpinho e brilhando!!”</blockquote><figcaption><a href="https://www.google.com/maps/contrib/103966249480120719022?hl=pt-BR" target="_blank" rel="noopener noreferrer">Trecho de avaliação no Google Maps <ArrowUpRight size={13} /></a></figcaption></figure></div>
-  </div></section>;
+  const cuidados = [
+    { nome: "Oficina", Icon: Wrench, tag: "Cuidado por dentro", texto: "Manutenção de acordo com a necessidade do seu veículo.", itens: ["Mecânica geral", "Troca de óleo", "Alinhamento e balanceamento"], botao: "Consultar oficina", href: orcamentoRapido("oficina") },
+    { nome: "Lavajato", Icon: Droplets, tag: "Cuidado por fora", texto: "Inclua a lavagem nos cuidados do seu dia a dia.", itens: ["Informe o modelo do carro", "Consulte as opções de lavagem", "Combine o atendimento"], botao: "Consultar lavagem", href: orcamentoRapido("lavajato") },
+    { nome: "Autopeças", Icon: CarFront, tag: "A peça que você procura", texto: "Peças, pneus e baterias com aplicação e estoque sob consulta.", itens: ["Peças nacionais e importadas", "Pneus e baterias", "Compatibilidade confirmada pela equipe"], botao: "Consultar peças", href: whatsapp("Olá! Vim pelo site da Salgueiro e gostaria de consultar uma peça para meu carro.") },
+  ];
+  return <section className="section wash-section" id="lavajato"><div className="container"><p className="section-label">Escolha seu atendimento</p><h2>Da oficina ao lavajato,<br />a gente cuida com você.</h2><div className="care-grid">{cuidados.map((c, i) => <article className={`care-card ${i === 1 ? "featured" : ""}`} key={c.nome}><span className="care-tag"><c.Icon size={17} />{c.tag}</span><h3>{c.nome}</h3><p>{c.texto}</p><ul>{c.itens.map(item => <li key={item}><Check size={14} />{item}</li>)}</ul><MotionLink label={c.botao} href={c.href} target="_blank" rel="noopener noreferrer" className={i === 1 ? "button-dark" : ""} /></article>)}</div><p className="care-note">Valores, modalidades, aplicação de peças e disponibilidade são confirmados diretamente com a equipe.</p></div></section>;
 }
 
 export function Gallery() {
-  return <section className="section gallery-section"><div className="container"><div className="section-heading"><h2>Portas abertas.<br /><span className="muted-title">Conheça a nossa estrutura.</span></h2><a href={site.mapa} className="text-link" target="_blank" rel="noopener noreferrer">Mais fotos no Google Maps <ArrowUpRight size={18} /></a></div>
-    <div className="gallery-grid"><figure><Image src="/images/pneus.jpg" alt="Pessoas trabalhando na oficina Salgueiro com carros nos elevadores" width={1200} height={900} /><figcaption>A oficina e a equipe em atividade</figcaption></figure><figure><Image src="/images/autopecas.jpg" alt="Balcão real da loja Salgueiro, com peças e acessórios nas prateleiras" width={1200} height={900} /><figcaption>Peças e acessórios na nossa loja</figcaption></figure><figure className="gallery-video"><video controls playsInline preload="none" poster="/images/pneus.jpg" aria-label="Vídeo real do interior da oficina Salgueiro"><source src="/images/oficina-video.mp4" type="video/mp4" />Seu navegador não reproduz este vídeo. <a href={site.mapa}>Veja no Google Maps.</a></video><figcaption>Assista à oficina por dentro</figcaption></figure></div>
-    <p className="gallery-source">Fotos e vídeos reais publicados no perfil da Salgueiro. <a href={site.mapa} target="_blank" rel="noopener noreferrer">Ver origem no Google Maps <ArrowUpRight size={12} /></a></p>
-  </div></section>;
+  return <PhotoGallery />;
+}
+
+export function Impact() {
+  return <section className="section impact-section light-section"><div className="container"><div className="impact-card"><div className="impact-copy"><p className="section-label">A Salgueiro</p><h2>O cuidado com seu carro<br />tem endereço certo.</h2><p>Oficina, lavajato e autopeças na Av. 9, no Maiobão. Fale com a equipe e combine o atendimento que seu carro precisa.</p><ul className="impact-facts"><li><Clock3 /><span><strong>7h30 às 17h</strong><small>De segunda a sábado</small></span></li><li><Star /><span><strong>{site.avaliacao.nota} no Google</strong><small>{site.avaliacao.total} avaliações · consulta em {site.avaliacao.consultadoEm}</small></span></li><li><MapPin /><span><strong>Maiobão</strong><small>Paço do Lumiar, Maranhão</small></span></li></ul><Link href="/sobre/" className="button">Conheça a Salgueiro <ArrowUpRight size={17} /></Link></div><div><div className="impact-photo"><Image src="/images/pneus.jpg" alt="Equipe da Salgueiro trabalhando na oficina com carros nos elevadores" fill sizes="(max-width: 700px) 100vw, 50vw" /></div><div className="impact-links"><Link className="impact-link" href="/horarios/"><span>Oficina e manutenção<br />do seu jeito.</span><span className="round-arrow"><ArrowUpRight size={18} /></span></Link><Link className="impact-link" href="/contato/"><Image src="/images/salgueiro-oficina.jpg" alt="Fachada real da Salgueiro no Maiobão" fill sizes="25vw" /><span>Encontre a gente.</span><span className="round-arrow"><ArrowUpRight size={18} /></span></Link></div></div></div></div></section>;
+}
+
+export function Process() {
+  const etapas = [
+    { nome: "Converse", Icon: MessageCircle, texto: "Conte o modelo do veículo e o que você precisa." },
+    { nome: "Consulte", Icon: ClipboardList, texto: "Tire dúvidas sobre serviços, valores e peças." },
+    { nome: "Combine", Icon: CalendarDays, texto: "Confirme a disponibilidade e o atendimento com a equipe." },
+    { nome: "Venha", Icon: CarFront, texto: "Traga seu carro até a Salgueiro, no Maiobão." },
+  ];
+  return <section className="section process-section"><div className="container"><p className="section-label">Como funciona</p><h2>Uma conversa.<br />O próximo passo é com a gente.</h2><div className="process-grid">{etapas.map((e, i) => <article className="process-step" key={e.nome}><div className="process-step-top"><e.Icon /><span>{String(i + 1).padStart(2, "0")}</span></div><h3>{e.nome}</h3><p>{e.texto}</p></article>)}</div><div className="process-note"><strong>Seu carro. O cuidado que ele precisa.</strong><span>Sem orçamento automático: você consulta, tira dúvidas e combina tudo diretamente com a equipe.</span></div></div></section>;
 }
 
 export function Reputation() {

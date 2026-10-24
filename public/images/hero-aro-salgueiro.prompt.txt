@@ -1,0 +1,16 @@
+Origin: built-in image_gen.imagegen
+Generation count: 1
+Source output: C:/Users/Adria/.codex/generated_images/01a16a4d-a3fb-7141-8c82-9997fc7582d3/exec-43ab9338-96ec-40e6-b02b-268f031b7040.png
+Purpose: conceptual automotive artwork; not a photograph of the company or its premises.
+Transparent background: false
+
+Exact prompt:
+Use case: stylized-concept
+Asset type: wide website hero background illustration, artwork only
+Primary request: Create a sophisticated original 3D automotive sculpture of monumental open wheel-rim rings in dark graphite and black metal with enameled golden-yellow edges (#F5C22E). A very discreet small red accent (#E24D38) may appear on one mechanical detail. The rings are tilted in perspective, arranged as one striking sculptural cluster in the right half, with sleek mechanical rails or continuous metal ribbons sweeping diagonally toward the lower right corner.
+Scene/backdrop: near-solid deep black studio background (#0C0D0E), no environment, no visible floor horizon, nontransparent.
+Composition/framing: landscape 3:2 composition. The large ring sculpture occupies the right 55 percent, with the circular opening clearly readable. Keep the left 45 percent almost entirely deep black and empty for a live HTML headline. Let the diagonal mechanical ribbons exit the bottom right edge. Leave comfortable negative space around the upper rim. Similar high-level composition and premium sculptural lighting to the supplied visual reference, but original automotive geometry and yellow palette. Do not reproduce the reference webpage.
+Style/medium: premium conceptual 3D automotive artwork, polished product-design render, beautiful controlled bevels, realistic metallic materials, restrained composition.
+Lighting/mood: elegant studio key light, soft golden rim highlights, detailed graphite surfaces, deep black shadows; premium and precise, without excessive glow.
+Materials/textures: satin graphite metal, black anodized metal, glossy golden-yellow enameled rim borders; clean substantial mechanical forms.
+Constraints: Generate only the illustration, no webpage, no interface, no typography, no letters, no numbers, no logos, no watermark, no people, no company premises, no identifiable automotive brand, no orange palette. Opaque dark background. This is conceptual artwork, not documentary photography.

@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 const revealSelector = [
   ".section-heading", ".service-card", ".about-image", ".about-copy",
   ".gallery-grid figure", ".steps-section h2", ".step", ".reputation-inner",
-  ".location-grid > div:not(.map-frame)", ".contact-banner > .container", ".quote-intro", ".quote-form", ".wash-copy", ".wash-details", ".review",
+  ".location-grid > div:not(.map-frame)", ".contact-banner > .container", ".quote-intro", ".quote-form", ".review", ".impact-card", ".testimonial", ".testimonial-cta", ".photo-tile", ".process-step", ".care-card",
 ].join(", ");
 
 // Melhoria progressiva: o HTML continua visível sem JavaScript ou animações.
@@ -27,6 +27,7 @@ export function ScrollEffects() {
       const hero = main.querySelector<HTMLElement>(".hero");
       let frame = 0;
       let lastProgress = -1;
+      let focoPorTeclado = true;
 
       const clearReveal = (element: HTMLElement) => {
         element.removeAttribute("data-scroll-reveal");
@@ -75,10 +76,13 @@ export function ScrollEffects() {
         }
       };
       const onFocus = (event: FocusEvent) => {
-        if (!(event.target instanceof HTMLElement)) return;
+        // O clique não pode reposicionar seu alvo entre pointerdown e pointerup.
+        if (!focoPorTeclado || !(event.target instanceof HTMLElement)) return;
         const parent = event.target.closest<HTMLElement>("[data-scroll-reveal]");
         if (parent) { observer.unobserve(parent); clearReveal(parent); }
       };
+      const onPointerDown = () => { focoPorTeclado = false; };
+      const onKeyDown = (event: KeyboardEvent) => { if (event.key === "Tab") focoPorTeclado = true; };
 
       register();
       hero?.setAttribute("data-scroll-active", "");
@@ -89,6 +93,8 @@ export function ScrollEffects() {
       window.addEventListener("resize", schedule);
       main.addEventListener("animationend", onAnimationEnd);
       main.addEventListener("focusin", onFocus);
+      document.addEventListener("pointerdown", onPointerDown, true);
+      document.addEventListener("keydown", onKeyDown, true);
 
       dispose = () => {
         observer.disconnect();
@@ -98,6 +104,8 @@ export function ScrollEffects() {
         window.removeEventListener("resize", schedule);
         main.removeEventListener("animationend", onAnimationEnd);
         main.removeEventListener("focusin", onFocus);
+        document.removeEventListener("pointerdown", onPointerDown, true);
+        document.removeEventListener("keydown", onKeyDown, true);
         main.querySelectorAll<HTMLElement>("[data-scroll-reveal]").forEach(clearReveal);
         hero?.removeAttribute("data-scroll-active");
         hero?.style.removeProperty("--hero-scroll");

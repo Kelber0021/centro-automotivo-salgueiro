@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { ArrowUpRight, Camera, Menu, MessageCircle, Phone, X } from "lucide-react";
 import { site, whatsapp } from "@/config/site";
+import { MotionLink } from "./MotionLink";
 
 const links = [{ href: "/", nome: "Início" }, { href: "/servicos/", nome: "Serviços" }, { href: "/#lavajato", nome: "Lavajato" }, { href: "/sobre/", nome: "A Salgueiro" }, { href: "/horarios/", nome: "Agendamento" }, { href: "/contato/", nome: "Onde estamos" }];
 
@@ -19,8 +20,8 @@ export function Header() {
     <div className="container header-inner">
       <Link href="/" aria-label="Salgueiro, página inicial" onClick={() => setAberto(false)}><Marca /></Link>
       <nav aria-label="Principal" className="desktop-nav">{links.map(link => <Link key={link.href} href={link.href} aria-current={pathname === link.href ? "page" : undefined}>{link.nome}</Link>)}</nav>
-      <a className="button button-small header-cta" href={whatsapp()} target="_blank" rel="noopener noreferrer">Pedir orçamento <ArrowUpRight size={17} /></a>
-      <button className="menu-toggle" aria-label={aberto ? "Fechar menu" : "Abrir menu"} aria-expanded={aberto} aria-controls="menu-mobile" onClick={() => setAberto(!aberto)}>{aberto ? <X /> : <Menu />}</button>
+      <MotionLink className="button-small header-cta" label="Pedir orçamento" href={whatsapp()} target="_blank" rel="noopener noreferrer" />
+      <button className={`menu-toggle ${aberto ? "is-open" : ""}`} aria-label={aberto ? "Fechar menu" : "Abrir menu"} aria-expanded={aberto} aria-controls="menu-mobile" onClick={() => setAberto(!aberto)}><span className="menu-glyph" aria-hidden="true"><Menu /><X /></span></button>
     </div>
     {aberto && <nav id="menu-mobile" className="mobile-nav" aria-label="Menu mobile">{links.map(link => <Link key={link.href} href={link.href} aria-current={pathname === link.href ? "page" : undefined} onClick={() => setAberto(false)}>{link.nome}<ArrowUpRight size={17} /></Link>)}<a href={whatsapp()} target="_blank" rel="noopener noreferrer">Pedir orçamento <MessageCircle size={18} /></a></nav>}
   </header>;
