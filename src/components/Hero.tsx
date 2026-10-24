@@ -14,8 +14,8 @@ export function Hero() {
     void videoRef.current?.play().catch(() => {});
   }
   function fecharVideo() { dialogRef.current?.close(); }
-  return <section className="hero" aria-label="Bem-vindo à Salgueiro">
-    <div className="hero-media"><Image src="/images/hero-aro-salgueiro.png" alt="Ilustração conceitual 3D de aros automotivos em grafite e dourado" fill priority sizes="(max-width: 640px) 100vw, 1200px" className="hero-photo" /></div>
+  return <section className="hero hero-facade" aria-label="Bem-vindo à Salgueiro">
+    <div className="hero-media"><Image src="/images/salgueiro-oficina.jpg" alt="Fachada da Salgueiro, com letreiro amarelo e vermelho e entrada da loja de autopeças no Maiobão" fill loading="eager" fetchPriority="high" sizes="(max-width: 700px) 100vw, 56vw" className="hero-photo" /></div>
     <div className="container hero-content">
       <p className="hero-location">Centro automotivo no Maiobão, MA</p>
       <h1>Seu carro merece<br />cuidado de<br /><span>verdade.</span></h1>

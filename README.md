@@ -19,7 +19,7 @@ Lavajato é uma atividade informada pelo usuário. Modalidades e preços não fo
 
 O formulário prepara uma mensagem e oferece um link para o WhatsApp: não envia mensagens sozinho, não grava dados e não confirma agendamentos. Não há painel, autenticação, pagamento ou backend de produção.
 
-A abertura usa uma ilustração conceitual 3D de aros, criada com o image_gen builtin. Ela não representa uma peça à venda nem uma instalação real da empresa. O arquivo está em `public/images/hero-aro-salgueiro.png`; o prompt exato e a origem estão no arquivo `.prompt.txt` ao lado. As fotos da galeria e o vídeo da oficina continuam sendo mídias reais do Maps. O botão “Ver a oficina” abre o vídeo com controles e pausa a reprodução ao fechar.
+A abertura apresenta a foto real da fachada, publicada no Maps e mantida em `public/images/salgueiro-oficina.jpg`, com enquadramentos próprios para computador e celular. A ilustração conceitual de aros usada anteriormente foi preservada em `public/images/hero-aro-salgueiro.png`, com seu prompt e origem no arquivo `.prompt.txt` ao lado, mas não é exibida na abertura. As fotos da galeria e o vídeo da oficina também são mídias reais do Maps. O botão “Ver a oficina” abre o vídeo com controles e pausa a reprodução ao fechar.
 
 O modelo visual foi fornecido pelo usuário. As microinterações foram adaptadas da demonstração pública [Daily Direction, de Joseph Berry](https://daily-direction.webflow.io/): texto deslizante (01), pulso do play (02), menu animado (07), abertura de contatos (08) e setas nos links (09). A implementação usa os componentes Next.js e CSS do projeto, sem carregar o runtime do Webflow. O site não usa marcas de parceiros, preços, estatísticas ou clientes fictícios do modelo de agência.
 

@@ -44,4 +44,12 @@ Limites: teste móvel emulado em Chromium/Edge; não representa validação em a
 - Capturas revisadas em `output/instagram-desktop.png` e `output/instagram-celular.png`. Build, TypeScript e lint concluídos; detector sem ocorrências.
 - Cashback mencionado na bio permanece sujeito à confirmação de regras antes de anúncio próprio no site.
 
+## Fachada na abertura — 24/10/2026
+
+- Foto real da fachada substitui a ilustração, preservada nos arquivos do projeto.
+- Enquadramentos revisados em computador, tablet e celular; sem rolagem horizontal em 360, 390, 768 e 1440 px.
+- Playwright confirmou o carregamento da fachada e a abertura/fechamento do vídeo, sem erros de execução ou de console no contexto novo.
+- Capturas: output/fachada-desktop.png, output/fachada-tablet.png e output/fachada-mobile.png.
+- Build com TypeScript e lint concluídos. Validação de navegador em Edge, sem teste em aparelho físico.
+
 final result: passed
