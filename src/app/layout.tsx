@@ -1,13 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope, Barlow_Condensed } from "next/font/google";
+import { Manrope } from "next/font/google";
 import { Header, Footer } from "@/components/Chrome";
 import { ScrollEffects } from "@/components/ScrollEffects";
 import { site } from "@/config/site";
 import { ContactDock } from "@/components/ContactDock";
 import "./globals.css";
+import "./redesign.css";
 
 const body = Manrope({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"], variable: "--font-body" });
-const display = Barlow_Condensed({ subsets: ["latin"], weight: ["600", "700", "800"], variable: "--font-display" });
 
 export const metadata: Metadata = {
   title: { default: "Salgueiro | Oficina e lavajato no Maiobão", template: "%s | Salgueiro" },
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { themeColor: "#0d0e0f" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return <html lang="pt-BR" data-scroll-behavior="smooth" className={`${body.variable} ${display.variable}`}><body>
+  return <html lang="pt-BR" data-scroll-behavior="smooth" className={body.variable}><body>
     <a className="skip-link" href="#conteudo">Ir para o conteúdo</a>
     <div className="site-shell"><Header /><main id="conteudo">{children}</main><ScrollEffects /><Footer /></div>
     <ContactDock />

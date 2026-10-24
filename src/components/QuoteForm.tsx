@@ -1,40 +1,49 @@
 "use client";
-
-import { useState, type FormEvent } from "react";
-import { ArrowUpRight, CarFront, MessageCircle, Wrench } from "lucide-react";
-import { orcamentoRapido, servicos, whatsapp } from "@/config/site";
+import { useRef, useState, type FormEvent } from "react";
+import { useSearchParams } from "next/navigation";
+import { ArrowUpRight } from "lucide-react";
+import { servicos, whatsapp } from "@/config/site";
+import { products, productCategories } from "@/config/catalog";
+import { buildRequestMessage, localDate, validateRequest, type RequestErrors, type RequestType, type ServiceRequest } from "@/lib/consultation";
+import type { Product } from "@/lib/commerce";
+import { useLocalDate } from "@/lib/useLocalDate";
 
 export function QuoteForm() {
-  const [mensagem, setMensagem] = useState("");
-  const [categoria, setCategoria] = useState<"oficina" | "lavajato">("oficina");
-  function preparar(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const dados = new FormData(event.currentTarget);
-    const nome = String(dados.get("nome") ?? "").trim();
-    const veiculo = String(dados.get("veiculo") ?? "").trim();
-    const servico = String(dados.get("servico") ?? "");
-    if (!veiculo || !servicos.some(s => s.nome === servico)) return;
-    const data = String(dados.get("data") ?? "");
-    const detalhes = String(dados.get("detalhes") ?? "").trim();
-    const linhas = [
-      "Olá! Vim pelo site da Salgueiro e gostaria de solicitar um atendimento.", "",
-      ...(nome ? ["Nome: " + nome] : []),
-      "Veículo: " + veiculo, "Serviço: " + servico,
-      "Data de preferência: " + (data ? data.split("-").reverse().join("/") : "A combinar"),
-      ...(detalhes ? ["Observações: " + detalhes] : []),
-      "", "Podem confirmar disponibilidade e orçamento?"
-    ];
-    setMensagem(linhas.join("\n"));
+  const params = useSearchParams();
+  const product = products.find(p => p.id === params.get("produto") && p.approved && productCategories.some(c => c.id === p.categoryId && c.approved));
+  return <RequestForm key={product?.id ?? "general"} product={product} />;
+}
+function RequestForm({ product }: { product?: Product }) {
+  const [data, setData] = useState<ServiceRequest>({ type: product ? "autopecas" : "oficina", request: product?.name ?? "", productCode: product?.code, brand: "", model: "", year: "", name: "", date: "", notes: "" });
+  const [errors, setErrors] = useState<RequestErrors>({});
+  const [message, setMessage] = useState("");
+  const [unknownVehicle, setUnknownVehicle] = useState(false);
+  const form = useRef<HTMLFormElement>(null);
+  const today = useLocalDate();
+  function field<K extends keyof ServiceRequest>(key: K, value: ServiceRequest[K]) {
+    setData(old => ({ ...old, [key]: value, ...(key === "request" && value !== product?.name ? { productCode: undefined } : {}) }));
+    setMessage(""); setErrors(old => ({ ...old, [key]: undefined }));
   }
-  const hoje = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Sao_Paulo", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
-  return <div className="quote-layout"><div className="quote-intro"><h2>Conte o que precisa.<br /><span className="muted-title">A equipe cuida do próximo passo.</span></h2><p>Escolha o atendimento e informe seu carro. Sua mensagem fica pronta para conferir e enviar pelo WhatsApp.</p><div className="quote-disclaimer"><MessageCircle size={23} /><p>A data é uma preferência. O agendamento e o orçamento são confirmados pela equipe na conversa.</p></div><div className="quote-fast"><h3>Prefere ir direto à conversa?</h3><a href={orcamentoRapido("oficina")} target="_blank" rel="noopener noreferrer">Falar sobre oficina <ArrowUpRight size={16} /></a><a href={orcamentoRapido("lavajato")} target="_blank" rel="noopener noreferrer">Falar sobre lavagem <ArrowUpRight size={16} /></a></div><p className="privacy-note">Os dados ficam nesta página até você escolher enviar. Não armazenamos o formulário.</p></div>
-    <form className="quote-form" onSubmit={preparar} onChange={() => setMensagem("")}>
-      <fieldset className="quote-category"><legend>Qual atendimento você procura?</legend>{([{ id: "oficina", nome: "Oficina", Icon: Wrench }, { id: "lavajato", nome: "Lavajato", Icon: CarFront }] as const).map(c => <label key={c.id} className={categoria === c.id ? "category-option selected" : "category-option"}><input type="radio" name="atendimento" value={c.id} checked={categoria === c.id} onChange={() => setCategoria(c.id)} /><c.Icon size={21} /><span>{c.nome}</span></label>)}</fieldset>
-      <div className="form-field"><label htmlFor="veiculo">Seu veículo</label><input id="veiculo" name="veiculo" placeholder="Ex.: Onix 1.0, ano 2020" required pattern={".*\\S.*"} title="Informe o modelo do seu veículo." maxLength={100} /></div>
-      {categoria === "oficina" ? <div className="form-field"><label htmlFor="servico">Qual serviço?</label><select id="servico" name="servico" required defaultValue=""><option value="" disabled>Escolha um serviço</option>{servicos.filter(s => s.categoria === "oficina").map(s => <option key={s.id}>{s.nome}</option>)}</select></div> : <><input name="servico" type="hidden" value="Lavagem automotiva" /><p className="selected-wash">Lavagem automotiva · Opções e valores na conversa.</p></>}
-      <div className="form-field"><label htmlFor="nome">Seu nome <span>(opcional)</span></label><input id="nome" name="nome" placeholder="Como podemos chamar você?" maxLength={80} autoComplete="given-name" /></div>
-      <details className="quote-extra"><summary>Adicionar data ou observações</summary><div className="form-field"><label htmlFor="data">Data de preferência <span>(opcional)</span></label><input id="data" name="data" type="date" min={hoje} /></div><div className="form-field"><label htmlFor="detalhes">O que mais precisamos saber? <span>(opcional)</span></label><textarea id="detalhes" name="detalhes" rows={3} placeholder="Conte o que percebeu no carro ou o que procura." maxLength={1000} /></div></details>
-      {mensagem ? <div className="quote-result" role="status"><strong>Sua mensagem está pronta.</strong><p>Confira os dados e abra a conversa para enviar.</p><pre>{mensagem}</pre><a className="button" href={whatsapp(mensagem)} target="_blank" rel="noopener noreferrer">Abrir conversa no WhatsApp <ArrowUpRight size={19} /></a></div> : <button className="button" type="submit">Preparar mensagem <ArrowUpRight size={19} /></button>}
-      <p className="form-note">Você confere e envia. Nada é enviado automaticamente.</p>
-    </form></div>;
+  function changeType(type: RequestType) {
+    setData(old => ({ ...old, type, request: type === "lavajato" ? "Lavagem automotiva" : "", date: "", productCode: undefined }));
+    setErrors({}); setMessage("");
+  }
+  function prepare(event: FormEvent) {
+    event.preventDefault(); const currentErrors = validateRequest(data, localDate()); setErrors(currentErrors);
+    if (Object.keys(currentErrors).length) { setMessage(""); requestAnimationFrame(() => form.current?.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus()); return; }
+    setMessage(buildRequestMessage(data));
+  }
+  const error = (key: keyof ServiceRequest) => errors[key] ? <span id={`error-${key}`} className="field-error">{errors[key]}</span> : null;
+  return <div className="quote-layout">
+    <div className="quote-intro"><p className="section-label">Solicitação de atendimento</p><h2>Conte o que precisa.<br /><span className="muted-title">A conversa começa por aqui.</span></h2><p>Informe o atendimento e o que souber sobre o veículo. A equipe orienta a aplicação, o orçamento e a disponibilidade.</p><div className="quote-disclaimer"><p>A data é uma preferência. O envio da mensagem não confirma um agendamento.</p></div><p className="privacy-note">O formulário não é armazenado pelo site. Você confere antes de abrir o WhatsApp.</p></div>
+    <form ref={form} className="quote-form request-form" onSubmit={prepare} noValidate>
+      <fieldset className="quote-category"><legend>Qual atendimento você procura?</legend>{([{ id: "oficina", name: "Oficina" }, { id: "autopecas", name: "Autopeças" }, { id: "lavajato", name: "Lavajato" }] as const).map(item => <label key={item.id} className={`category-option ${data.type === item.id ? "selected" : ""}`}><input type="radio" name="type" value={item.id} checked={data.type === item.id} onChange={() => changeType(item.id)} /><span>{item.name}</span></label>)}</fieldset>
+      <div className="form-field"><label htmlFor="request">O que você precisa?</label><input id="request" name="request" list={data.type === "oficina" ? "service-suggestions" : undefined} value={data.request} onChange={e => field("request", e.target.value)} maxLength={200} required aria-invalid={!!errors.request} aria-describedby={errors.request ? "error-request" : "request-help"} placeholder={data.type === "autopecas" ? "Nome da peça, medida ou dúvida" : "Ex.: troca de óleo ou preciso de orientação"} /><small id="request-help">Não precisa conhecer o nome técnico. Descreva com suas palavras.</small>{error("request")}<datalist id="service-suggestions">{servicos.filter(s => s.categoria === "oficina").map(s => <option key={s.id} value={s.nome} />)}<option value="Preciso de orientação" /></datalist></div>
+      <fieldset className="vehicle-fields"><legend>Seu veículo <span>(se souber)</span></legend><label className="unknown-vehicle"><input type="checkbox" checked={unknownVehicle} onChange={e => { setUnknownVehicle(e.target.checked); setData(old => ({ ...old, brand: "", model: "", year: "" })); setMessage(""); setErrors({}); }} /> Não sei informar o modelo ou a versão</label>{!unknownVehicle && <div className="form-two-columns"><div className="form-field"><label htmlFor="brand">Marca (opcional)</label><input id="brand" name="brand" value={data.brand} onChange={e => field("brand", e.target.value)} placeholder="Ex.: Fiat" maxLength={80} /></div><div className="form-field"><label htmlFor="model">Modelo (opcional)</label><input id="model" name="model" value={data.model} onChange={e => field("model", e.target.value)} placeholder="Ex.: Uno" maxLength={80} /></div><div className="form-field"><label htmlFor="year">Ano (opcional)</label><input id="year" name="year" value={data.year} onChange={e => field("year", e.target.value)} inputMode="numeric" maxLength={4} placeholder="Ex.: 2020" aria-invalid={!!errors.year} aria-describedby={errors.year ? "error-year" : undefined} />{error("year")}</div></div>}</fieldset>
+      <details className="quote-extra"><summary>Adicionar nome, data ou observações</summary><div className="form-field"><label htmlFor="name">Nome (opcional)</label><input id="name" name="name" autoComplete="given-name" value={data.name} onChange={e => field("name", e.target.value)} maxLength={80} /></div>{data.type !== "autopecas" && <div className="form-field"><label htmlFor="date">Data de preferência (opcional)</label><input id="date" name="date" type="date" min={today || undefined} value={data.date} onChange={e => field("date", e.target.value)} aria-invalid={!!errors.date} aria-describedby={errors.date ? "error-date" : undefined} />{error("date")}</div>}<div className="form-field"><label htmlFor="notes">Observações (opcional)</label><textarea id="notes" name="notes" value={data.notes} onChange={e => field("notes", e.target.value)} maxLength={1000} rows={3} placeholder="Conte o que mais precisamos saber." /></div></details>
+      {Object.keys(errors).some(k => !!errors[k as keyof ServiceRequest]) && <p role="alert" className="field-error">Confira os campos indicados para preparar sua mensagem.</p>}
+      {message ? <div className="quote-result" role="status"><strong>Sua mensagem está pronta para conferir.</strong><pre>{message}</pre><a className="button" href={whatsapp(message)} target="_blank" rel="noopener noreferrer">Abrir conversa no WhatsApp <ArrowUpRight size={18} /></a></div> : <button className="button" type="submit">Preparar mensagem <ArrowUpRight size={18} /></button>}
+      <p className="form-note">Você revisa e envia. Nada é enviado automaticamente.</p>
+    </form>
+  </div>;
 }
