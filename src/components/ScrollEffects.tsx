@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 const revealSelector = [
   ".section-heading", ".service-card", ".about-image", ".about-copy",
   ".gallery-grid figure", ".steps-section h2", ".step", ".reputation-inner",
-  ".location-grid > div:not(.map-frame)", ".contact-banner > .container", ".quote-intro", ".quote-form", ".review", ".impact-card", ".testimonial", ".testimonial-cta", ".photo-tile", ".process-step", ".care-card",
+  ".location-grid > div:not(.map-frame)", ".contact-banner > .container", ".quote-intro", ".quote-form", ".review", ".impact-card", ".testimonial", ".testimonial-cta", ".photo-tile", ".process-step", ".care-card", ".instagram-copy", ".instagram-post",
 ].join(", ");
 
 // Melhoria progressiva: o HTML continua visível sem JavaScript ou animações.

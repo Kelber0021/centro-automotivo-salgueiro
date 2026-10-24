@@ -2,6 +2,7 @@ import { Hero } from "@/components/Hero";
 import { Services } from "@/components/Services";
 import { Gallery, Impact, Location, Process, Wash } from "@/components/Sections";
 import { TestimonialsCTA } from "@/components/TestimonialsCTA";
+import { InstagramSection } from "@/components/InstagramSection";
 import { site } from "@/config/site";
 
 export default function Home() {
@@ -12,5 +13,5 @@ export default function Home() {
     geo: { "@type": "GeoCoordinates", latitude: -2.5394867, longitude: -44.1707284 },
     openingHoursSpecification: [{ "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], opens: "07:30", closes: "17:00" }],
   };
-  return <><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(dados).replace(/</g, "\\u003c") }} /><Hero /><Services compacto /><Impact /><TestimonialsCTA /><Gallery /><Process /><Wash /><Location /></>;
+  return <><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(dados).replace(/</g, "\\u003c") }} /><Hero /><Services compacto /><Impact /><TestimonialsCTA /><Gallery /><InstagramSection /><Process /><Wash /><Location /></>;
 }

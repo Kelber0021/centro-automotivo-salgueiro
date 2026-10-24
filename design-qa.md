@@ -36,4 +36,12 @@ Capturas locais em `output/modelo-reference/`: `comparacao.png`, `desktop.png`, 
 
 Limites: teste móvel emulado em Chromium/Edge; não representa validação em aparelhos físicos ou Safari. O mapa depende do serviço externo e mantém foto, nova tentativa e link de rota disponíveis. Melhorias estéticas adicionais são opcionais.
 
+## Destaque do Instagram — 24/10/2026
+
+- Perfil público conferido no navegador: `salgueiro_centro_automotivo`. Duas artes originais vinculadas às publicações de 23/10/2026 e 21/10/2026; seleção manual, sem apresentar contador de seguidores como informação ao vivo.
+- Link do perfil, chamada principal e dois links de posts confirmados; novas abas com `noopener noreferrer`. Quatro links externos para o domínio oficial.
+- Seção verificada em 360, 768 e 1440 px, sem rolagem horizontal ou erros de execução registrados. Prévias locais carregadas, com enquadramento `contain` para preservar o anúncio inteiro.
+- Capturas revisadas em `output/instagram-desktop.png` e `output/instagram-celular.png`. Build, TypeScript e lint concluídos; detector sem ocorrências.
+- Cashback mencionado na bio permanece sujeito à confirmação de regras antes de anúncio próprio no site.
+
 final result: passed

@@ -10,9 +10,16 @@ export const site = {
   cep: "65130-000",
   mapa: "https://maps.app.goo.gl/KmWV1oBNv76wHkei6",
   instagram: "https://www.instagram.com/salgueiro_centro_automotivo/",
+  instagramHandle: "salgueiro_centro_automotivo",
   horario: "Segunda a sábado, das 7h30 às 17h",
   avaliacao: { nota: "4,8", total: 17, consultadoEm: "23/10/2026" },
 } as const;
+
+// Prévias curadas do perfil público, conferidas em 24/10/2026; não é um feed automático.
+export const instagramPosts = [
+  { titulo: "Troca de óleo", imagem: "/images/instagram-troca-oleo.jpg", largura: 640, altura: 640, data: "2026-10-23", dataTexto: "23 out 2026", url: "https://www.instagram.com/salgueiro_centro_automotivo/p/De2MEjjh0k4/", alt: "Publicação da Salgueiro sobre troca de óleo, com óleos e o contato da empresa" },
+  { titulo: "Revisão para viajar", imagem: "/images/instagram-revisao-viagem.jpg", largura: 482, altura: 640, data: "2026-10-21", dataTexto: "21 out 2026", url: "https://www.instagram.com/salgueiro_centro_automotivo/p/DexQHxHufV0/", alt: "Publicação da Salgueiro sobre revisão do veículo antes de viajar" },
+] as const;
 
 export function whatsapp(mensagem = "Olá! Vim pelo site da Salgueiro e gostaria de um orçamento.") {
   return `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(mensagem)}`;
